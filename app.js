@@ -49,14 +49,20 @@ App({
                 // 插入用户数据
                 var host = config.host;
                 userInfo = JSON.parse(userInfo);
-                userInfo.code = code;
-                req.getRequest(host + "/weixinApi/getOpenidByCode", userInfo, "GET", function (res) {
+                var requestData = {};
+                requestData.code = code;
+                // userInfo.code = code;
+                req.getRequest(host + "/api/wechat/getOpenidByCode", requestData, "GET", "application/json", function (res) {
                   var data = res.data;
-                  var openid = data.data;
+                  console.log(data);
+                  var openid = data;
                   // console.log(openid);
+                  userInfo.openid = openid;
+                  self.globalData.userInfo = JSON.stringify(userInfo)
                   self.globalData.openid = openid;
+                  typeof callback == "function" && callback(self.globalData.userInfo, res);
                   });
-                typeof callback == "function" && callback(self.globalData.userInfo, res);
+                
               },
               fail: function (err) {
                 console.log('wx.getUserInfo 接口调用失败');

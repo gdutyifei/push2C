@@ -1,11 +1,11 @@
-function getRequest(URL, DATA, METHOD, FUC, ERR) {
+function getRequest(URL, DATA, METHOD, CONTENTTYPE, FUC, ERR) {
   var that = this;
   if (DATA != null) {
     wx.request({
       url: URL,
       method: METHOD,
       header: {
-        'content-type': 'application/json'
+        'content-type': CONTENTTYPE
       },
       data: DATA,
       success: function (resp) {
