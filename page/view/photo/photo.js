@@ -32,10 +32,16 @@ Page({
     
   },
   jumpToIdentify() {
-    var openid = this.data.openid;
-    var flag = "identify";
-    wx.navigateTo({
-      url: '/page/view/camera/camera?openid=' + openid + "&flag=" + flag,
+    // var openid = this.data.openid;
+    // var flag = "identify";
+    // wx.navigateTo({
+    //   url: '/page/view/camera/camera?openid=' + openid + "&flag=" + flag,
+    // })
+    wx.scanCode({
+      onlyFromCamera: true,
+      success: (res) => {
+        console.log(res)
+      }
     })
   },
   // 识别人脸并上传人脸库

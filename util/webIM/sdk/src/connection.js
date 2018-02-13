@@ -773,22 +773,17 @@ connection.prototype.open = function (options) {
         var appName = str[1];
 
         var suc = function (data, xhr, myName) {
+          wx.setStorageSync("webIMToken", data.data.access_token);
             // console.log('success',data, xhr, myName)
             conn.context.status = _code.STATUS_DOLOGIN_IM;
             conn.context.restTokenData = data;
             //console.log(options)
             if (data.statusCode != '404' && data.statusCode != '400') {
-                wx.showToast({
-                    title: '登录成功',
-                    icon: 'success',
-                    duration: 1000
-                });
-
-                setTimeout(function () {
-                    wx.redirectTo({
-                        url: '../main/main?myName=' + userId
-                    })
-                }, 1000);
+                // wx.showToast({
+                //     title: '登录成功',
+                //     icon: 'success',
+                //     duration: 1000
+                // });
             }
             _login(data.data, conn);
         };

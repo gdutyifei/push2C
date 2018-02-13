@@ -1,0 +1,6 @@
+<!--page/view/index/index.wxml-->
+
+
+<navigator url='/page/view/chatList/chatList'>
+  <text>page/view/index/index.wxml</text>
+</navigator>

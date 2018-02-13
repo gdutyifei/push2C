@@ -1,7 +1,9 @@
 {
   "pages": [
+    "page/view/index/index",
     "page/view/photo/photo",
-    "page/view/camera/camera"
+    "page/view/camera/camera",
+    "page/view/chatList/chatList"
   ],
   "window": {
     "navigationBarTextStyle": "black",
