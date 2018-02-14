@@ -3,7 +3,8 @@
     "page/view/index/index",
     "page/view/photo/photo",
     "page/view/camera/camera",
-    "page/view/chatList/chatList"
+    "page/view/chatList/chatList",
+    "page/view/webview/webview"
   ],
   "window": {
     "navigationBarTextStyle": "black",
