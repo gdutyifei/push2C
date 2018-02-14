@@ -8,7 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-      name: 'gdutyifei1',
+      name: 'gdutyifei3',
       psd: '111111',
       grant_type: 'password'
   },

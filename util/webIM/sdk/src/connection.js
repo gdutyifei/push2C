@@ -1576,12 +1576,12 @@ connection.prototype.send = function (message) {
             if (message.resource) {
                 toJid = toJid + '/' + message.resource;
             }
-            //console.log(toJid);
+            console.log(toJid);
             //console.log("adwadwdawdaw", message)
             message.toJid = toJid;
             message.id = message.id || this.getUniqueId();
             _msgHash[message.id] = new _message(message);
-            // //console.log(new _message(message))
+            console.log(new _message(message))
             _msgHash[message.id].send(this);
         } else if (typeof message === 'string') {
             _msgHash[message] && _msgHash[message].send(this);
