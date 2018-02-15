@@ -1,0 +1,75 @@
+Page {
+  background: #fff;
+}
+
+.btn {
+  font-size: 28rpx;
+  padding: 15rpx 30rpx;
+  width: 100rpx;
+  margin: 20rpx;
+  text-align: center;
+  border-radius: 20rpx;
+}
+
+.btn_warning {
+  background: #f6a623;
+  color: #fff;
+}
+
+.btn_danger {
+  background: #f00;
+  color: #fff;
+}
+
+/*.modal_screen{
+    background: rgba(0,0,0,0.5);
+    position: fixed;
+    top:0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    z-index:9999;
+    overflow: hidden;
+}*/
+
+.toast_screen {
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 888;
+  overflow: hidden;
+}
+
+.toast_content_box {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.toast_icon_box {
+  height: 100%;
+  width: 20%;
+  float: left;
+}
+
+.toast_content {
+  opacity: 0.7;
+  width: 40%;
+  height: 148rpx;
+  line-height: 148rpx;
+  padding: 20rpx;
+  background-color: #111111;
+  border-radius: 10rpx;
+  text-align: center;
+  color: #D7D7D7;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular;
+  
+}
