@@ -156,6 +156,8 @@ Page({
       to: self.data.toName,
       roomType: false,
       success: function(id, serverMsgId) {
+        console.log(id);
+        console.log(serverMsgId);
         console.log('send text messge success');
       },
       fail: function(e) {
@@ -165,7 +167,9 @@ Page({
     console.log('sending textmessge');
     msg.body.chatType = 'singleChat';
     WebIM.conn.send(msg.body);
+    console.log(msg);
     if(msg) {
+      // 说明发送成功，保存到表中。
       var value = WebIM.parseEmoji(msg.value.replace(/\n/mg, ''));
       var time = WebIM.time();
       var msgData = {
