@@ -1,0 +1,56 @@
+.item-from {
+  font-size: 30rpx;
+  font-family: PingFangSC-Medium;
+  color: #BFBFBF;
+  padding: 40rpx 0 30rpx 37rpx;
+}
+
+.item-detail {
+  position: relative;
+  background-color: #FFF;
+  width: 92%;
+  margin: 0 auto;
+  padding: 32rpx 0 83rpx 0;
+}
+.item-store {
+  font-size: 26rpx;
+  font-family: PingFangSC-Medium;
+  color: #404040;
+  margin: 32rpx 0 16rpx 46rpx;
+}
+
+.item-name {
+  font-size: 48rpx;
+  font-family: PingFangSC-Semibold;
+  color: #404040;
+  margin: 0 0 10rpx 46rpx;
+}
+
+.item-job {
+  font-size: 24rpx;
+  font-family: PingFangSC-Medium;
+  color: #87898C;
+  margin: 0 0 40rpx 46rpx;
+  padding: 0 9rpx;
+  display: inline-block;
+  border: 1rpx solid #87898C;
+}
+
+.item-tel, .item-email {
+  font-size: 26rpx;
+  font-family: AmericanTypewriter;
+  color: #7E7E7E;
+  margin: 0 0 10rpx 46rpx;
+}
+.item-image {
+  position: absolute;
+  top: 36rpx;
+  right: 63rpx;
+}
+.item-image image {
+  width: 156rpx;
+  height: 156rpx;
+  border-radius: 50%;
+  border: 1rpx solid #E2ECF4;
+  box-shadow: #3B434B;
+}
