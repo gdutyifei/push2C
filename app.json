@@ -1,16 +1,50 @@
 {
   "pages": [
+    "page/view/chatList/chatList",
+    "page/view/cardList/cardList",
+    "page/view/test/test",
     "page/view/index/index",
+    "page/view/identifyView/identifyView",
+    "page/view/myCard/myCard",
+    "page/view/myProduct/myProduct",
+    "page/view/productDetail/productDetail",
+    "page/view/myStore/myStore",
     "page/view/photo/photo",
     "page/view/camera/camera",
-    "page/view/chatList/chatList",
-    "page/view/webview/webview"
+    
+    "page/view/webview/webview",
+    "page/component/toast/toast"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "U-in",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7E7E7E",
+    "selectedColor": "#09BB07",
+    "borderStyle": "#F7F7FA",
+    "list": [
+      {
+        "selectedIconPath": "/image/my-card-selected.png",
+        "iconPath": "/image/my-card-selected.png",
+        "pagePath": "page/view/myCard/myCard",
+        "text": "名片"
+      },
+      {
+        "selectedIconPath": "/image/my-product-normal.png",
+        "iconPath": "/image/my-product-normal.png",
+        "pagePath": "page/view/myProduct/myProduct",
+        "text": "产品"
+      },
+      {
+        "selectedIconPath": "/image/my-store-normal.png",
+        "iconPath": "/image/my-store-normal.png",
+        "pagePath": "page/view/myStore/myStore",
+        "text": "门店"
+      }
+    ]
   },
   "networkTimeout": {
     "request": 10000,

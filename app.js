@@ -32,11 +32,29 @@ App({
       }
     })
   },
+  getOpenid: function(callback) {
+    var self = this;
+    var host = config.host;
+    wx.login({
+      success: function(data) {
+        var code = data.code;
+        var requestData = {};
+        requestData.code = code;
+        req.getRequest(host + "/api/wechat/getOpenidByCode", requestData, "GET", "application/json", function (res) {
+          // console.log(res);
+          var data = res.data;
+          var openid = data.openid;
+          // console.log(openid);
+          typeof callback == "function" && callback(openid, res);
+        });
+      }
+    })
+  },
   // lazy loading openid
   getUserInfo: function (callback) {
     var self = this;
     var host = config.host;
-    console.log(self.globalData.userInfo);
+    
     wx.login({
       success: function (data) {
         var code = data.code;

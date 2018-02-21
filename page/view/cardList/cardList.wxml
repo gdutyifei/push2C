@@ -1,6 +1,6 @@
 <view class='content'>
   <scroll-view class='card-list' scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;" bindscrolltolower="bindDownLoad" bindscrolltoupper="topLoad"  bindscroll="scroll" >
-    <view class='card-item' wx:for="{{cardList}}" wx:for-item="item">
+    <view class='card-item' wx:for="{{cardList}}" wx:for-item="item" data-id="{{item.id}}" data-openid="{{item.openid}}" bindtap='enterTheCard'>
       <view class='item-from'>
         <text>{{ item.date }}来自{{ item.way }}</text>
       </view>
@@ -21,7 +21,8 @@
           <text>Email:{{ item.email }}</text>
         </view>
         <view class='item-image'>
-          <image src='{{ item.imageUrl }}' mode='widthFix'></image>
+          <!-- <image src='{{ item.imageUrl }}' mode='widthFix'></image> -->
+          <image src='/image/default_image.png' mode='widthFix'></image>
         </view>
       </view>
     </view>

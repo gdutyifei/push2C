@@ -112,7 +112,7 @@ WebIM.time = function () {
 }
 
 WebIM.Emoji = {
-    path: '../../images/faces/',
+    path: '/image/faces/',
     map: {
         '[):]': 'ee_1.png',
         '[:D]': 'ee_2.png',
@@ -155,7 +155,7 @@ WebIM.Emoji = {
 }
 
 WebIM.EmojiObj = {
-    path: '../../images/faces/',
+    path: '/image/faces/',
     map1: {
         '[):]': 'ee_1.png',
         '[:D]': 'ee_2.png',

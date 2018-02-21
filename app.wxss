@@ -8,10 +8,10 @@ page {
 checkbox, radio{
   margin-right: 10rpx;
 }
-button{
+/* button{
   margin-top: 20rpx;
   margin-bottom: 20rpx;
-}
+} */
 form{
   width: 100%;
 }
