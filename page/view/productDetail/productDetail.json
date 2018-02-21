@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "toast": "/page/component/toast/toast"
+  }
+}
