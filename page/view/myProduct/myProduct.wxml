@@ -1,0 +1,10 @@
+<view class="product-list">
+  <view class='product-item' wx:for="{{productList}}" wx:for-item="item" data-id="{{item.id}}" bindtap='goToDetail'>
+    <image class='product-image' src='{{ item.cover_url }}' mode='widthFix'>
+      <view class='product-info'>
+        <text class='product-name'>{{ item.product_name }}</text>
+        <text class='product-price'>¥{{ item.product_price }}</text>
+      </view>
+    </image>
+  </view>
+</view>
