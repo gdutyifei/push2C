@@ -1,0 +1,109 @@
+.header-bg {
+  width: 100%;
+  position: relative;
+}
+
+.my-info {
+  width: 92%;
+  background-color: #FFF;
+  opacity: 0.9;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: -100rpx;
+}
+
+.my-name {
+  font-size: 48rpx;
+  font-family: PingFangSC-Semibold;
+  color: #404040;
+  padding: 46rpx 0 12rpx 0;
+}
+
+.my-job {
+  font-size: 38rpx;
+  font-family: PingFangSC-Medium;
+  color: #404040;
+  padding-bottom: 42rpx;
+}
+
+.my-store {
+  font-size: 34rpx;
+  font-family: PingFangSC-Medium;
+  color: #404040;
+  padding-bottom: 60rpx;
+}
+.card-info {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  padding-bottom: 51rpx;
+
+}
+.info-item {
+  display: flex;
+  align-items: center;
+  margin: 0 62rpx;
+}
+.info-item image {
+  width: 40rpx;
+  /* height: 40rpx; */
+  margin-right: 25rpx;
+}
+
+.info-item text {
+  font-size: 26rpx;
+  font-family: PingFangSC-Medium;
+  color: #87898C;
+}
+
+.msg-text {
+  font-size: 36rpx;
+  font-family: PingFangSC-Medium;
+  color: #888888;
+  margin: 30rpx 0 16rpx 30rpx;
+}
+
+.personal-msg-ul {
+  background-color: #FFF;
+}
+
+.personal-msg-li {
+  /* width: 100%; */
+  padding: 21rpx 0;
+  /* height: 87rpx; */
+  background-color: #FFF;
+  display: flex;
+  align-items: center;
+  margin-left: 30rpx;
+  border-bottom: 1rpx solid #E5E5E5;
+}
+.personal-msg-tip {
+  font-size: 34rpx;
+  font-family: PingFangSC-Regular;
+  color: #000;
+}
+.personal-msg-content {
+  margin: 0 0 0 112rpx;
+  width: 62%;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular;
+  color: #404040;
+}
+.personal-msg-li image {
+  width: 40rpx;
+  /* height: 40rpx; */
+}
+#sync-btn {
+  width: 92%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background-color: #404040;
+  color: #FFF;
+  margin: 30rpx auto;
+  border-radius: 10rpx;
+}
+
+.photo-list image {
+  width: 100%;
+}
