@@ -58,9 +58,9 @@ Page({
         });
       },
     });
-    app.getUserInfo(function (e) {
+    // app.getUserInfo(function (e) {
 
-    });    
+    // });    
     app.getOpenid(function(e) {
       var openid = e;
       var self = getCurrentPages()[0];
