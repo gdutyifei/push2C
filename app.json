@@ -1,6 +1,6 @@
 {
   "pages": [
-    "page/view/chatList/chatList",
+    "page/view/chatRoom/chatRoom",
     "page/view/cardList/cardList",
     "page/view/test/test",
     "page/view/index/index",

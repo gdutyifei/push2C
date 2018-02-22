@@ -1,10 +1,94 @@
 const openIdUrl = require('./config').openIdUrl;
 const req = require('./util/request.js');
 const config = require('./config.js');
+require('./util/webIM/strophe.js')
+var WebIM = require('./util/webIM/WebIM.js').default
 
 App({
+  getRoomPage: function () {
+    return this.getPage("page/view/chatRoom/chatRoom")
+  },
+  getPage: function (pageName) {
+    var pages = getCurrentPages()
+    return pages.find(function (page) {
+      return page.__route__ == pageName
+    })
+  },
   onLaunch: function () {
+    this.getUserInfo(function (e) {
+
+    }); 
     console.log('App Launch')
+
+    var self = this;
+    WebIM.conn.listen({
+      // 连接成功回调
+      onOpened: function(message) {
+        console.log("连接成功回调");
+        WebIM.conn.setPresence();
+      },
+      // 处理“广播”或“发布-订阅”消息，如联系人订阅请求、处理群组、聊天室被踢解散等消息
+      onPresence: function(message) {
+        
+      },
+      // 处理好友申请
+      onRoster: function(message) {
+        // var page = getCurrentPages();
+        // if(page[0]) {
+        //   page[0].onShow();
+        // }
+      },
+      // 收到文本消息
+      onTextMessage: function(message) {
+        var page = self.getRoomPage();
+        console.log("消息： " + message);
+
+        if(message) {
+          if(page) {
+            page.receiveMsg(message, "txt");
+          } else {
+            var chatMsg = self.globalData.chatMsg || [];
+            var value = WebIM.parseEmoji(message.data.replace(/\n/mg, ''));
+            var time = WebIM.time();
+            var msgData = {
+              info: {
+                from: message.from,
+                to: message.to
+              },
+              username: message.from,
+              yourname: message.from,
+              msg: {
+                type: "txt",
+                data: value
+              },
+              style: '',
+              time: time,
+              mid: 'txt' + message.id
+            }
+            chatMsg = wx.getStorageSync(msgData.yourname + message.to) || [];
+            chatMsg.push(msgData);
+          }
+        }
+      },
+      // 各种异常
+      onError: function (error) {
+        // 16: server-side close the websocket connection
+        if (error.type == WebIM.statusCode.WEBIM_CONNCTION_DISCONNECTED) {
+          if (WebIM.conn.autoReconnectNumTotal < WebIM.conn.autoReconnectNumMax) {
+            return;
+          }
+
+          wx.showToast({
+            title: 'server-side close the websocket connection',
+            duration: 1000
+          });
+          wx.redirectTo({
+            url: '../login/login'
+          });
+          return;
+        }
+      }
+    })
   },
   onShow: function () {
     console.log('App Show')
@@ -16,7 +100,8 @@ App({
   globalData: {
     hasLogin: false,
     openid: null,
-    userInfo: {}
+    userInfo: {},
+    chatMsg: []
   },
   // 获取用户位置
   getLocationInfo: function () {
@@ -92,6 +177,7 @@ App({
 
               self.globalData.userInfo = JSON.stringify(userInfo)
               self.globalData.openid = openid;
+              self.loginToWebIM();
               typeof callback == "function" && callback(self.globalData.userInfo, res);
 
             },
@@ -106,5 +192,37 @@ App({
         callback(err)
       }
     })
+  },
+  // 自动登录到环信
+  loginToWebIM: function () {
+    var self = this;
+    var options = {};
+    var res = wx.getStorageInfoSync();
+    var token = res.webIMToken;
+    var userName = res.webIMUserName;
+    // 如果账号和token都有缓存的话，使用token登录。
+    if (token != null && token != "" && userName != null && userName != "") {
+      console.log("使用token登录");
+      options = {
+        apiUrl: WebIM.config.apiURL,
+        user: userName,
+        accessToken: token,
+        grant_type: self.data.grant_type,
+        appKey: WebIM.config.appKey
+      };
+    } else {
+      console.log("使用账号密码登录");
+      // console.log(self.globalData.openid);
+      // 否则，使用账号密码登录，并缓存userName和token
+      options = {
+        apiUrl: WebIM.config.apiURL,
+        user: self.globalData.openid,
+        pwd: self.globalData.openid,
+        grant_type: "password",
+        appKey: WebIM.config.appkey
+      };
+      wx.setStorageSync('webIMUserName', self.globalData.openid);
+    }
+    WebIM.conn.open(options);
   }
 })
