@@ -97,5 +97,10 @@ Page({
     wx.navigateTo({
       url: '/page/view/productDetail/productDetail?id=' + productId,
     })
+  },
+  goToChat: function(e) {
+    wx.navigateTo({
+      url: '/page/view/chatRoom/chatRoom?salesOpenid=' + app.globalData.salesOpenid,
+    })
   }
 })

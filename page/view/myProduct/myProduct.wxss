@@ -30,3 +30,13 @@
   margin-right: 4%;
   text-align: right;
 }
+
+.chat {
+  position: fixed;
+  bottom: 130rpx;
+  right: 30rpx;
+}
+
+.chat image {
+  width: 130rpx;
+}

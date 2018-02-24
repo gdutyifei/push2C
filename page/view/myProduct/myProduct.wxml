@@ -8,3 +8,7 @@
     </image>
   </view>
 </view>
+
+<view class='chat' bindtap='goToChat'>
+  <image src='/image/wechat.png' mode='widthFix'></image>
+</view>
