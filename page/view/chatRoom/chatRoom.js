@@ -1,21 +1,9 @@
 var strophe = require('../../../util/webIM/strophe.js');
 var WebIM = require('../../../util/webIM/WebIM.js');
 var WebIM = WebIM.default;
+const req = require('../../../util/request.js');
+const config = require('../../../config.js');
 var app = getApp();
-
-var RecordStatus = {
-  SHOW: 0,
-  HIDE: 1,
-  HOLD: 2,
-  SWIPE: 3,
-  RELEASE: 4
-}
-
-var RecordDesc = {
-  0: '长按开始录音',
-  2: '向上滑动取消',
-  3: '松开手取消',
-}
 
 Page({
 
@@ -24,69 +12,37 @@ Page({
    */
   data: {
     chatMsg: [],
-    emojiStr: '',
-    yourname: 'gdutyifei1',
+    yourname: '',
     myname: '',
     sendInfo: '',
     userMessage: '',
     inputMessage: '',
-    indicatorDots: true,
-    autoplay: false,
-    interval: 5000,
-    duration: 1000,
-    show: 'emoji_list',
-    view: 'scroll_view',
-    toView: '',
-    emoji: WebIM.Emoji,
-    emojiObj: WebIM.EmojiObj,
-    msgView: {},
-    RecordStatus: RecordStatus,
-    RecordDesc: RecordDesc,
-    recordStatus: RecordStatus.HIDE,
+    toView: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var self = this;
+    var host = config.host;
+    var salesOpenid = options.salesOpenid;
     this.setData({
-      myname: app.globalData.openid
+      myname: app.globalData.openid.toLowerCase(),
+      yourname: salesOpenid.toLowerCase()
     });
-    // this.setData({
-    //   sendInfo: "测试发送"
-    // });
-    // this.sendMessage();
-
-    // // 加为好友
-    // WebIM.conn.subscribe({
-    //   to: "gdutyifei2"
-    // });
-    // var self = this;
-    // // 获取好友列表
-    // var rosters = {
-    //   success: function (roster) {
-    //     var member = [];
-    //     console.log(roster);
-    //   }
-    // };
-    // WebIM.conn.getRoster(rosters);
-
-    // 获取聊天列表
-    // var token = wx.getStorageSync("webIMToken");
-    // var option = {
-    //   apiUrl: WebIM.config.apiURL,
-    //   pagenum: 1,
-    //   pagesize: 20,
-    //   accessToken: token,
-    //   success: function (resp) {
-    //     console.log("返回");
-    //     console.log(resp);
-    //   },
-    //   error: function (e) {
-    //     console.log(e);
-    //   }
-    // };
-    // WebIM.conn.getChatRooms(option);
+    var requestData = {};
+    requestData.from = app.globalData.openid;
+    requestData.to = salesOpenid;
+    req.getRequest(host + "/api/chat/getChatListByOpenid", requestData, "GET", "application/json", function (res) {
+      console.log(res);
+      var data = res.data.data;
+      self.setData({
+        chatMsg: data,
+        inputMessage: '',
+        toView: data[data.length - 1].mid
+      });
+    });
   },
 
   /**
@@ -151,18 +107,16 @@ Page({
     })
   },
   focus: function () {
-    this.setData({
-      show: 'emoji_list',
-      view: 'scroll_view'
-    })
+    
   },
 
   /**
    * 发送文本消息
    */
   sendMessage: function () {
+    var host = config.host;
     console.log('发送消息');
-    // if(! this.data.userMessage.trim()) return;
+    if(! this.data.userMessage.trim()) return;
 
     var self = this;
 
@@ -197,43 +151,36 @@ Page({
       console.log("值为： " + JSON.stringify(value));
       var time = WebIM.time();
       var msgData = {
-        info: {
-          to: msg.body.to
-        },
-        username: fromName,
-        youname: msg.body.to,
-        msg: value[0],
-        style: 'self',
+          from: fromName,
+          to: msg.body.to,
+        // msg: value[0],
+        data: value[0].data,
+        // style: 'self',
         time: time,
-        mid: msg.id
+        mid: "WEBIM_" + msg.id
       };
       self.data.chatMsg.push(msgData);
-      console.log(self.data.yourname);
-      console.log(self.data.myname);
-
-      wx.setStorage({
-        key: self.data.yourname + self.data.myname,
-        data: self.data.chatMsg,
-        success: function () {
-          //console.log('success', that.data)
+      req.getRequest(host + "/api/chat/saveChatInfo", msgData, "GET", "application/json", function (res) {
+        console.log(res);
+        self.setData({
+          chatMsg: self.data.chatMsg,
+          inputMessage: '',
+          userMessage: ''
+        })
+        setTimeout(function () {
           self.setData({
-            chatMsg: self.data.chatMsg,
-            inputMessage: ''
+            toView: self.data.chatMsg[self.data.chatMsg.length - 1].mid
           })
-          setTimeout(function () {
-            self.setData({
-              toView: self.data.chatMsg[self.data.chatMsg.length - 1].mid
-            })
-          }, 100)
-        }
-      })
-      self.setData({
-        userMessage: ''
-      })
+        }, 100)
+      });
+      // self.data.chatMsg.push(msgData);
+      // console.log(self.data.yourname);
+      // console.log(self.data.myname);
     }
   },
 
   receiveMsg: function (msg, type) {
+    var host = config.host;
     console.log(JSON.stringify(msg));
     var that = this
     var myName = app.globalData.openid;
@@ -248,85 +195,40 @@ Page({
       console.log(value)
       var time = WebIM.time()
       var msgData = {
-        info: {
           from: msg.from,
-          to: msg.to
-        },
-        username: '',
-        yourname: (that.data.yourname).toLowerCase(),
-        msg: value[0],
-        style: '',
+          to: msg.to,
+        // msg: value[0],
+        data: value[0].data,
+        // style: '',
         time: time,
-        mid: msg.type + msg.id
+        mid: "WEBIM_" + msg.id
       }
-      if (msg.from == that.data.yourname) {
-        msgData.style = ''
-        msgData.username = msg.from
-      } else {
-        msgData.style = 'self'
-        msgData.username = msg.to
-      }
-      //console.log(msgData, that.data.chatMsg, that.data)
-      console.log(msgData);
-      that.data.chatMsg.push(msgData)
-      wx.setStorage({
-        key: that.data.yourname + myName,
-        data: that.data.chatMsg,
-        success: function () {
-          //console.log('success', that.data)
-          that.setData({
-            chatMsg: that.data.chatMsg,
-          })
-          setTimeout(function () {
-            that.setData({
-              toView: that.data.chatMsg[that.data.chatMsg.length - 1].mid
-            })
-          }, 100)
-        }
-      })
-    }
-  },
-  test: function() {
-    var that = this;
-    var value = "xxxxxx"
-    var time = WebIM.time()
-    var msgData = {
-      info: {
-        to: "xxx"
-      },
-      username: "111",
-      yourname: "xxx",
-      msg: {
-        type: "txt",
-        data: value
-      },
-      style: 'self',
-      time: time,
-      mid: 1
-    }
-    console.log(msgData);
-    this.data.chatMsg.push(msgData)
-    // console.log(that.data.chatMsg)
-
-    wx.setStorage({
-      key: "luoyifei" + "xxx",
-      data: that.data.chatMsg,
-      success: function () {
-        //console.log('success', that.data)
+      // if (msg.from == that.data.yourname) {
+      //   msgData.style = ''
+      // } else {
+      //   msgData.style = 'self'
+      // }
+      req.getRequest(host + "/api/chat/saveChatInfo", msgData, "GET", "application/json", function (res) {
+        console.log(res);
         that.setData({
           chatMsg: that.data.chatMsg,
-          emojiList: [],
-          inputMessage: ''
         })
         setTimeout(function () {
           that.setData({
             toView: that.data.chatMsg[that.data.chatMsg.length - 1].mid
           })
         }, 100)
-      }
-    })
-    that.setData({
-      userMessage: ''
-    })
+      });
+      console.log(msgData);
+      that.data.chatMsg.push(msgData)
+      wx.setStorage({
+        key: that.data.yourname + that.data.myname,
+        data: that.data.chatMsg,
+        success: function () {
+          //console.log('success', that.data)
+          
+        }
+      })
+    }
   }
 })

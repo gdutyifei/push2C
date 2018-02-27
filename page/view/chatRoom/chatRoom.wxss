@@ -16,6 +16,10 @@
   bottom: 220px;
 }
 
+scroll-view {
+  margin-bottom: 30px;
+}
+
 .message {
   width: 92%;
   height: auto;
