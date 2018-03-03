@@ -21,9 +21,9 @@
   <view class='consult-btn' bindtap='consultShow'>
     <text>咨询</text>
   </view>
-  <view class='share-btn'>
+  <button class='share-btn' bindtap='share' open-type="share">
     <text>分享给朋友</text>
-  </view>
+  </button>
 </view>
 
 <view class='consult-content' wx-if="{{ isShowConsult }}">
@@ -34,7 +34,7 @@
     <form bindsubmit='formSubmit'>
       <view class='form-data'>
         <input name="name" type='text' placeholder='请输入姓名' />
-        <input name="tel" type='tel' placeholder='请输入电话' />
+        <input name="tel" type='tel' maxlength='11' placeholder='请输入电话' />
         <input name="content" type='text' placeholder='请输入咨询内容（30字以内）' />
       </view>
        <view class='submit-btn'>

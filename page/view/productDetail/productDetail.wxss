@@ -51,6 +51,7 @@
   font-family: PingFangSC-Regular;
   color: #111111;
   padding-bottom: 2.4%;
+  text-align: left;
 }
 
 .bottom {
@@ -126,3 +127,9 @@
   background-color: #FFF;
   border-top: 1rpx solid #D2D3D5;
 }
+
+button {
+  background: none;
+  border-radius: 0;
+}
+button::after{ border: none; }
