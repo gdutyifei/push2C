@@ -1,8 +1,11 @@
 <view class='content'>
+  <view class='scan-btn' bindtap='goToScan'>
+    <image src='/image/scan.png' mode='widthFix'></image>
+  </view>
   <scroll-view class='card-list' scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;" bindscrolltolower="bindDownLoad" bindscrolltoupper="topLoad"  bindscroll="scroll" >
-    <view class='card-item' wx:for="{{cardList}}" wx:for-item="item" data-id="{{item.id}}" data-openid="{{item.openid}}" bindtap='enterTheCard'>
+    <view class='card-item' wx:for="{{cardList}}" wx:for-item="item" data-id="{{item.salesId}}" data-openid="{{item.openid}}" bindtap='enterTheCard'>
       <view class='item-from'>
-        <text>{{ item.date }}来自{{ item.way }}</text>
+        <text>{{ item.date }}来自{{item.way == '转发'? item.relayName + '的': ''}}{{ item.way }}</text>
       </view>
       <view class='item-detail'>
         <view class='item-store'>
@@ -22,7 +25,7 @@
         </view>
         <view class='item-image'>
           <!-- <image src='{{ item.imageUrl }}' mode='widthFix'></image> -->
-          <image src='/image/default_image.png' mode='widthFix'></image>
+          <image src='{{item.imageUrl}}' ></image>
         </view>
       </view>
     </view>

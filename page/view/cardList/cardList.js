@@ -1,44 +1,15 @@
 // page/view/cardList/cardList.js
 var app = getApp();
+const util = require('../../../util/util.js');
 const req = require('../../../util/request.js');
 const config = require('../../../config.js');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    // cardList: [{
-    //   id: '1',
-    //   date: '2018-1-15 10:43',
-    //   way: '扫码',
-    //   store: '林氏木业广州总店',
-    //   name: '张经理',
-    //   job: '店长',
-    //   tel: '13800008978',
-    //   email: '13800008978@163.com',
-    //   imageUrl: '/image/default_image.png'
-    // }, {
-    //   id: '2',
-    //   date: '2018-1-15 10:43',
-    //   way: '扫码',
-    //   store: '林氏木业广州总店',
-    //   name: '张经理',
-    //   job: '店长',
-    //   tel: '13800008978',
-    //   email: '13800008978@163.com',
-    //   imageUrl: '/image/default_image.png'
-    //   }, {
-    //     id: '3',
-    //     date: '2018-1-15 10:43',
-    //     way: '扫码',
-    //     store: '林氏木业广州总店',
-    //     name: '张经理',
-    //     job: '店长',
-    //     tel: '13800008978',
-    //     email: '13800008978@163.com',
-    //     imageUrl: '/image/default_image.png'
-    //   }],
     cardList: [],
     scrollTop: 0,
     scrollHeight: 0
@@ -50,6 +21,8 @@ Page({
   onLoad: function (options) {
     //   这里要注意，微信的scroll-view必须要设置高度才能监听滚动事件，所以，需要在页面的onLoad事件中给scroll-view的高度赋值
     var self = this;
+    var scene = decodeURIComponent(options.scene);
+    console.log(scene);
     console.log("onload" + JSON.stringify(this));
     wx.getSystemInfo({
       success: function(res) {
@@ -62,22 +35,85 @@ Page({
 
     // });    
     app.getOpenid(function(e) {
+      var imgDomain = app.globalData.imgDomain;
       var openid = e;
       var self = getCurrentPages()[0];
       console.log("getOpenid" + JSON.stringify(self));
       var host = config.host;
       var requestData = {};
       requestData.openid = openid;
-      req.getRequest(host + "/api/cardList/getCardListByOpenid", requestData, "GET", "application/json", function (res) {
-        console.log(res);
-        if(res && res.data.code == '200') {
-          var data = res.data.data;
-          console.log(data);
-          self.setData({
-            cardList: data
+      console.log("salesId: " + options.salesId);
+      if (options.salesId != "" && options.salesId != null) {
+        console.log("来自转发");
+        // 来自转发
+        var rData = {};
+        rData.openid = openid;
+        console.log(parseInt(options.salesId));
+        rData.salesId =  options.salesId;
+        rData.way = "1";
+        rData.relay_name = options.name;
+        req.getRequest(host + "/api/cardList/saveCardToList", rData, "GET", "application/json", function (res) {
+          console.log(res);
+          app.globalData.salesId = options.salesId;
+          app.globalData.salesOpenid = openid;
+          wx.switchTab({
+            url: '/page/view/myCard/myCard',
           })
-        }
-      });
+        });
+      
+      
+      } else if (scene != "" && scene != null && scene != 'undefined') {
+        console.log(scene);
+        console.log("来自扫码");
+        // 来自扫码
+        var rData = {};
+        rData.openid = openid;
+        rData.salesId = scene;
+        rData.way = "0";
+        rData.relay_name = "";
+        req.getRequest(host + "/api/cardList/saveCardToList", requestData, "GET", "application/json", function (res) {
+          console.log(res);
+          app.globalData.salesId = options.salesId;
+          app.globalData.salesOpenid = openid;
+          wx.switchTab({
+            url: '/page/view/myCard/myCard',
+          })
+        });
+        
+      } else {
+        var insertData = {};
+        insertData.openid = openid;
+        req.getRequest(host + "/api/cardList/saveCardToListTemp", insertData, "GET", "application/json", function (res) {
+          console.log(res);
+          req.getRequest(host + "/api/cardList/getCardListByOpenid", requestData, "GET", "application/json", function (res) {
+            console.log(res);
+            if (res && res.data.code == '200') {
+              var data = res.data.data;
+              if (data != null && data != "") {
+                for (var i in data) {
+                  data[i].date = util.timetrans(data[i].date);
+                  data[i].imageUrl = imgDomain + "card/sales/" + data[i].imageUrl;
+                  console.log(data[i]);
+                  if (data[i].way == "0") {
+                    data[i].way = "扫码";
+                  } else if (data[i].way == "1") {
+                    data[i].way = "转发";
+                  }
+                }
+                self.setData({
+                  cardList: data
+                })
+
+              }
+
+            }
+          });
+        }, function (err) {
+          console.log(err);
+        });
+        
+      }
+      
     });
   },
 
@@ -147,12 +183,24 @@ Page({
   // 点击进入名片详情
   enterTheCard: function(e) {
     var salesId = e.currentTarget.dataset.id;
+    //var salesId = 1;
     console.log(e.currentTarget.dataset);
     var openid = e.currentTarget.dataset.openid;
     app.globalData.salesId = salesId;
     app.globalData.salesOpenid = openid;
     wx.switchTab({
       url: '/page/view/myCard/myCard',
+    })
+  },
+  goToScan: function() {
+    // wx.navigateTo({
+    //   url: '/page/view/identifyView/identifyView?openid=' + app.globalData.openid + '&flag=identify' 
+    // })
+    wx.scanCode({
+      scanType: ['qrCode'],
+      success: function (res) {
+        console.log(res);
+      }
     })
   }
 })

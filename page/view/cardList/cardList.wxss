@@ -1,3 +1,9 @@
+.scan-btn {
+  text-align: center;
+}
+.scan-btn image {
+  width: 21rpx;
+}
 .item-from {
   font-size: 30rpx;
   font-family: PingFangSC-Medium;
