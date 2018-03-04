@@ -8,17 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    productList: [{
-      productId: 1,
-      productImg: '/image/header.png',
-      productName: '新品沙发001',
-      productPrice: '6666'
-    }, {
-      productId: 2,
-      productImg: '/image/header.png',
-      productName: '新品沙发001',
-      productPrice: '6666'
-    }]
+    productList: []
   },
 
   /**
@@ -29,13 +19,19 @@ Page({
     var salesOpenid = app.globalData.salesOpenid;
     console.log("openid: " + salesOpenid);
     var host = config.host;
+    var imgDomain = app.globalData.imgDomain;
     var requestData = {};
-    requestData.openid = salesOpenid;
+    requestData.salesOpenid = salesOpenid;
+    requestData.openid = app.globalData.openid;
+    requestData.sales_id = app.globalData.salesId;
     req.getRequest(host + "/api/productInfo/getProductListByOpenid", requestData, "GET", "application/json", function (res) {
       console.log(res);
       if (res && res.data.code == '200') {
         var data = res.data.data;
         console.log(data);
+        for(var i in data) {
+          data[i].cover_url = imgDomain + "card/product/" + data[i].cover_url;
+        }
         self.setData({
           productList: data
         })
@@ -100,7 +96,7 @@ Page({
   },
   goToChat: function(e) {
     wx.navigateTo({
-      url: '/page/view/chatRoom/chatRoom?salesOpenid=' + app.globalData.salesOpenid,
+      url: '/page/view/chatRoom/chatRoom?salesOpenid=' + app.globalData.salesOpenid + '&salesId=' + app.globalData.salesId,
     })
   }
 })
