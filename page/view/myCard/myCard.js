@@ -16,12 +16,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var scene = decodeURIComponent(options.scene);
-    console.log(scene);
     var self = this;
     var host = config.host;
     var salesId = app.globalData.salesId;
     var openid = app.globalData.openid;
+    var imgDomain = app.globalData.imgDomain;
     
     var requestData = {};
     requestData.salesId = salesId;
@@ -34,10 +33,15 @@ Page({
         var salesOpenid = data.openid;
         app.globalData.salesOpenid = salesOpenid;
         if(data != null && data != "") {
+          console.log(data.cover_url);
+          data.cover_url = imgDomain + "card/sales/" + data.cover_url;
           var photos = data.photos;
           if(photos && photos.indexOf(",") != -1) {
             // 说明有,
             var imgList = photos.split(",");
+            for(var i in imgList) {
+              imgList[i] = imgDomain + "card/sales/" + imgList[i];
+            }
             console.log(imgList);
             data.imgList = imgList;
           }
@@ -45,15 +49,6 @@ Page({
             info: data
           })
         }
-
-        // 阅读量+1
-        var redisData = {};
-        redisData.key = salesOpenid
-        redisData.key = salesOpenid + "_read";
-        redisData.value = openid;
-        req.getRequest(host + "/api/redis/saveToRedis", redisData, "GET", "application/json", function (res) {
-            console.log(res);
-          });
       }
     });
   },
@@ -104,11 +99,27 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    console.log("执行转发");
+    var host = config.host;
+    var self = this;
+    var info = self.data.info;
+    var userInfo = JSON.parse(app.globalData.userInfo);
+    var name = userInfo.nickName;
     return {
-      title: '自定义标题',
-      path: '/page/view/myCard/myCard',
+      title: info.name,
+      path: '/page/view/cardList/cardList?salesId=' + info.id + '&name=' + name,
       success: function() {
         console.log("转发成功");
+        info.relay = parseInt(info.relay) + 1;
+        self.setData({
+          info: info
+        });
+        var requestData = {};
+        requestData.openid = app.globalData.openid;
+        requestData.sales_id = self.data.info.id;
+        req.getRequest(host + "/api/salesInfo/saveRankTranspondDetail", requestData, "GET", "application/json", function (res) {
+          console.log(res);
+        });
       },
       fail: function(err) {
         console.log("转发失败： " + err);
@@ -132,7 +143,18 @@ Page({
    */
   phoneCall: function(e) {
     // console.log(e);
-    var tel = e.target.dataset.tel;
+    var host = config.host;
+    var info = this.data.info;
+    var salesId = info.id;
+    console.log(salesId);
+    var tel = this.data.info.tel;
+    var requestData = {};
+    requestData.openid = app.globalData.openid;
+    requestData.sales_id = salesId;
+    requestData.phone = tel;
+    req.getRequest(host + "/api/salesInfo/saveRankCallDetail", requestData, "GET", "application/json", function (res) {
+      console.log(res);
+    });
     wx.makePhoneCall({
       phoneNumber: tel,
     })
@@ -142,7 +164,7 @@ Page({
    */
   copy: function(e) {
     var self = this;
-    var wechat = e.target.dataset.wechat;
+    var wechat = this.data.info.wechat;
     wx.setClipboardData({
       data: wechat,
       success: function(res) {
@@ -177,5 +199,35 @@ Page({
    */
   relayBtn: function(e) {
     this.onShareAppMessage();
+  },
+  /**
+   * 点赞
+   */
+  thumbBtn: function(e) {
+    
+    var host = config.host;
+    var info = this.data.info;
+    info.thumb = parseInt(info.thumb) + 1;
+    this.setData({
+      info: info
+    })
+    var salesId = info.id;
+    console.log(salesId);
+    var requestData = {};
+    requestData.openid = app.globalData.openid;
+    requestData.sales_id = salesId;
+    req.getRequest(host + "/api/salesInfo/saveRankClickPraiseDetail", requestData, "GET", "application/json", function (res) {
+      console.log(res);
+    });
+  },
+  goToChat: function (e) {
+    wx.navigateTo({
+      url: '/page/view/chatRoom/chatRoom?salesOpenid=' + app.globalData.salesOpenid + '&salesId=' + app.globalData.salesId,
+    })
+  },
+  goToStore: function(e) {
+    wx.switchTab({
+      url: '/page/view/myStore/myStore',
+    })
   }
 })

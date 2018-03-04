@@ -37,17 +37,40 @@
   margin: 0 auto;
   justify-content: center;
   padding-bottom: 51rpx;
+  position: relative;
 
 }
 .info-item {
   display: flex;
   align-items: center;
-  margin: 0 62rpx;
+  justify-content: center;
+  /* margin: 0 62rpx; */
+  width: 33%;
+  text-align: center;
 }
 .info-item image {
   width: 40rpx;
-  /* height: 40rpx; */
+   /* height: 40rpx;  */
   margin-right: 25rpx;
+}
+
+.info-item-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+}
+
+.info-item-btn image {
+  width: 40rpx;
+   /* height: 40rpx;  */
+  margin-right: 25rpx;
+}
+
+.info-item-btn text {
+  font-size: 26rpx;
+  font-family: PingFangSC-Medium;
+  color: #87898C;
 }
 
 .info-item text {
@@ -78,18 +101,22 @@
   border-bottom: 1rpx solid #E5E5E5;
 }
 .personal-msg-tip {
+  padding: 0;
+  margin: 0;
   font-size: 34rpx;
   font-family: PingFangSC-Regular;
   color: #000;
 }
 .personal-msg-content {
+  padding: 0;
   margin: 0 0 0 112rpx;
-  width: 62%;
+  width: 55%;
   font-size: 32rpx;
   font-family: PingFangSC-Regular;
   color: #404040;
 }
 .personal-msg-li image {
+  margin-left: 5%;
   width: 40rpx;
   /* height: 40rpx; */
 }
@@ -107,3 +134,18 @@
 .photo-list image {
   width: 100%;
 }
+
+.chat {
+  position: fixed;
+  bottom: 130rpx;
+  right: 30rpx;
+}
+
+.chat image {
+  width: 130rpx;
+}
+
+button {
+  background: none
+}
+button::after{ border: none; }

@@ -1,6 +1,6 @@
 <toast id="toast" content="已复制到剪切板" duration='3000'></toast>
 <view class='header'>
-  <image class='header-bg' src="/image/header.png" mode='widthfix'></image>
+  <image class='header-bg' src="{{info.cover_url}}" mode='widthfix'></image>
   <view class='my-info'>
     <view class='my-name'>
       <text>{{ info.name }}</text>
@@ -16,14 +16,14 @@
         <image src='/image/read.png' mode='widthFix'></image>
         <text>{{ info.read }}</text>
       </view>
-      <view class='info-item'>
+      <view class='info-item' bindtap='thumbBtn'>
         <image src='/image/thumb.png' mode='widthFix'></image>
         <text>{{ info.thumb }}</text>
       </view>
-      <view class='info-item' bindtap='relayBtn'>
+      <button class='info-item-btn' bindtap='relayBtn' open-type="share">
         <image src='/image/relay.png' mode='widthFix'></image>
         <text>{{ info.relay }}</text>
-      </view>
+      </button>
     </view>
   </view>
 </view>
@@ -31,18 +31,18 @@
   <view class='msg-text'>
     <text>个人信息</text>
   </view>
-  <view class='personal-msg-ul'>
-    <view class='personal-msg-li'>
+  <view class='personal-msg-ul' >
+    <view class='personal-msg-li' data-tel="{{ info.tel }}" bindtap='phoneCall'>
       <text class='personal-msg-tip'>手机</text>
-      <text class='personal-msg-content' data-tel="{{ info.tel }}" bindtap='phoneCall'>{{ info.tel }}</text>
+      <text class='personal-msg-content'>{{ info.tel }}</text>
       <image src='/image/tel.png' mode='widthFix'></image>
     </view>
-    <view class='personal-msg-li'>
+    <view class='personal-msg-li' data-wechat='{{ info.wechat }}' bindtap='copy'>
       <text class='personal-msg-tip'>微信</text>
-      <text class='personal-msg-content' data-wechat='{{ info.wechat }}' bindtap='copy'>{{ info.wechat }}</text>
+      <text class='personal-msg-content' >{{ info.wechat }}</text>
       <image src='/image/wechat.png' mode='widthFix'></image>
     </view>
-    <view class='personal-msg-li'>
+    <view class='personal-msg-li' bindtap='goToStore'>
       <text class='personal-msg-tip'>门店</text>
       <text class='personal-msg-content'>{{ info.store }}</text>
       <image src='/image/store.png' mode='widthFix'></image>
@@ -50,12 +50,12 @@
     <view class='personal-msg-li' style='border-bottom: none !important'>
       <text class='personal-msg-tip'>店址</text>
       <text class='personal-msg-content'>{{ info.location }}</text>
-      <image src='/image/location.png' mode='widthFix'></image>
+      <image src='/image/Location.png' mode='widthFix'></image>
     </view>
   </view>
-  <view id='sync-btn' bindtap='addContact'>
+  <button id='sync-btn' bindtap='addContact'>
     <text>同步到通讯录</text>
-  </view>
+  </button>
 </view>
 
 <view class='photo-show'>
@@ -65,4 +65,8 @@
   <view class='photo-list' wx:for="{{ info.imgList }}" wx:for-item="item">
     <image src='{{ item }}' mode='widthFix' data-src='{{ item }}' bindtap='previewImage'></image>
   </view>
+</view>
+
+<view class='chat' bindtap='goToChat'>
+  <image src='/image/wechat.png' mode='widthFix'></image>
 </view>
