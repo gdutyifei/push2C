@@ -1,0 +1,11 @@
+<view>
+    <camera device-position="back" flash="off" binderror="error" style="width: 100%; height: 1108rpx;"></camera>  
+</view>
+<view class='tab-bar'>
+  <view class='ai-btn'>
+    <image src='/image/AI.png' mode='widthFix'></image>
+  </view>
+  <view class='code-btn' bindtap='scanCode'>
+    <image src='/image/code.png' mode='widthFix'></image>
+  </view>
+</view>
