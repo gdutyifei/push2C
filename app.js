@@ -18,6 +18,19 @@ App({
     this.getUserInfo(function (e) {
 
     }); 
+    var host = config.host;
+    var data = {};
+    data.pf = 4;
+    req.getRequest('https://uplus.xspace.gd.cn/jmsw-uplus/start/init', data, "GET", "application/json", function (res) {
+      console.log(res);
+      var data = res.data.data.upyun;
+      var bucketName = data.bucketName;
+      var imgDomain = data.domain;
+      self.globalData.bucketName = bucketName;
+      self.globalData.imgDomain = imgDomain + "/";
+      console.log(imgDomain);
+      // self.globalData.openid = openid;
+    });
     console.log('App Launch')
 
     var self = this;
@@ -33,13 +46,11 @@ App({
       },
       // 处理好友申请
       onRoster: function(message) {
-        // var page = getCurrentPages();
-        // if(page[0]) {
-        //   page[0].onShow();
-        // }
+        
       },
       // 收到文本消息
       onTextMessage: function(message) {
+        var host = config.host;
         var page = self.getRoomPage();
         console.log("消息： " + message);
 
@@ -49,24 +60,24 @@ App({
           } else {
             var chatMsg = self.globalData.chatMsg || [];
             var value = WebIM.parseEmoji(message.data.replace(/\n/mg, ''));
+            console.log(message.id);
             var time = WebIM.time();
             var msgData = {
-              info: {
                 from: message.from,
-                to: message.to
-              },
-              username: message.from,
-              yourname: message.from,
-              msg: {
-                type: "txt",
-                data: value
-              },
-              style: '',
+                to: message.to,
+                data: value[0].data,
+              // msg: {
+              //   type: "txt",
+              //   data: value
+              // },
               time: time,
-              mid: 'txt' + message.id
+              mid: "WEBIM_" + message.id
             }
-            chatMsg = wx.getStorageSync(msgData.yourname + message.to) || [];
-            chatMsg.push(msgData);
+            req.getRequest(host + "/api/chat/saveChatInfo", msgData, "GET", "application/json", function (res) {
+              console.log(res);
+            });
+            // chatMsg = wx.getStorageSync(msgData.yourname + message.to) || [];
+            // chatMsg.push(msgData);
           }
         }
       },
@@ -125,6 +136,7 @@ App({
         var code = data.code;
         var requestData = {};
         requestData.code = code;
+        requestData.type = "C";
         req.getRequest(host + "/api/wechat/getOpenidByCode", requestData, "GET", "application/json", function (res) {
           // console.log(res);
           var data = res.data;
@@ -145,6 +157,7 @@ App({
         var code = data.code;
         var requestData = {};
         requestData.code = code;
+        requestData.type = "C";
         req.getRequest(host + "/api/wechat/getOpenidByCode", requestData, "GET", "application/json", function (res) {
           // console.log(res);
           var data = res.data;
@@ -169,6 +182,7 @@ App({
               var infoData = {};
               infoData.userInfo = JSON.stringify(userInfo);
               infoData.code = code;
+              infoData.type = "C";
               req.getRequest(host + "/api/wechat/saveUserInfo", infoData, "GET", "application/json", function (res) {
                 console.log(res);
               }, function (err) {

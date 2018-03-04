@@ -1,7 +1,7 @@
 {
   "pages": [
-    "page/view/chatRoom/chatRoom",
     "page/view/cardList/cardList",
+    "page/view/chatRoom/chatRoom",
     "page/view/test/test",
     "page/view/index/index",
     "page/view/identifyView/identifyView",
@@ -11,9 +11,9 @@
     "page/view/myStore/myStore",
     "page/view/photo/photo",
     "page/view/camera/camera",
-    
     "page/view/webview/webview",
-    "page/component/toast/toast"
+    "page/component/toast/toast",
+    "page/view/chart/chart"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -28,22 +28,23 @@
     "list": [
       {
         "selectedIconPath": "/image/my-card-selected.png",
-        "iconPath": "/image/my-card-selected.png",
+        "iconPath": "/image/my-card-normal.png",
         "pagePath": "page/view/myCard/myCard",
         "text": "名片"
       },
       {
-        "selectedIconPath": "/image/my-product-normal.png",
+        "selectedIconPath": "/image/my-product-selected.png",
         "iconPath": "/image/my-product-normal.png",
         "pagePath": "page/view/myProduct/myProduct",
         "text": "产品"
       },
       {
-        "selectedIconPath": "/image/my-store-normal.png",
+        "selectedIconPath": "/image/my-store-selected.png",
         "iconPath": "/image/my-store-normal.png",
         "pagePath": "page/view/myStore/myStore",
         "text": "门店"
       }
+     
     ]
   },
   "networkTimeout": {
