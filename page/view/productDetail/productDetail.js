@@ -162,5 +162,11 @@ Page({
   share: function() {
     var productId = this.data.productInfo.id;
     console.log(productId);
+  },
+  hideConsult: function(e) {
+    console.log(e);
+    this.setData({
+      isShowConsult: false
+    });
   }
 })

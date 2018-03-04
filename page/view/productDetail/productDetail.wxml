@@ -27,7 +27,9 @@
 </view>
 
 <view class='consult-content' wx-if="{{ isShowConsult }}">
+  <view class='consult-floor' bindtap='hideConsult'></view>
   <view class='consult-form'>
+    
     <view class='consult-top'>
       <text>咨询</text>
     </view>
