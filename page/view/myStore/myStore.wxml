@@ -1,0 +1,36 @@
+<view>
+  <view class='pic-content'>
+     <image class="main-pic" src='{{info.main_pic}}' mode='widthFix'></image>
+  </view>
+ 
+  <view class='team'>
+    <view class='title'>服务团队</view>
+    <view class='user-content'>
+      <view class='user' wx:for="{{info.companyUsers}}" wx:for-item="item">
+      <image class='user-pic' src='{{item.pic}}' >
+        <view class='user-info'>
+          <view class='user-name'>{{item.u_name}}</view>
+          <view class='user-post'>{{item.u_post}}</view>
+        </view>
+    </image>
+    </view>
+    </view>
+    
+  </view>
+  <view class='contact'>
+    <view class='title'>联系我们</view>
+    <view class='tel'  >
+      <text bindtap='phoneCall' data-tel="{{ info.tel }}">{{info.tel}}</text>
+    </view>
+  </view>
+  <!-- <view class='location'>
+    <view class='title'>门店地址</view>
+    <view class="map_container">
+  <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" show-location="true" markers="{{markers}}" bindmarkertap="makertap"></map>
+</view>
+  </view> -->
+</view>
+
+<view class='chat' bindtap='goToChat'>
+  <image src='/image/wechat.png' mode='widthFix'></image>
+</view>
