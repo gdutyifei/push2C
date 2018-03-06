@@ -36,6 +36,9 @@ Page({
     // });    
     app.getOpenid(function(e) {
       var imgDomain = app.globalData.imgDomain;
+      if (imgDomain == null) {
+        imgDomain = "https://file.xspace.gd.cn/";
+      }
       var openid = e;
       var self = getCurrentPages()[0];
       console.log("getOpenid" + JSON.stringify(self));
@@ -50,8 +53,12 @@ Page({
         rData.openid = openid;
         console.log(parseInt(options.salesId));
         rData.salesId =  options.salesId;
+        app.globalData.salesId = options.salesId;
+        app.globalData.openid = openid;
         rData.way = "1";
         rData.relay_name = options.name;
+        console.log(openid);
+        console.log(33333);
         req.getRequest(host + "/api/cardList/saveCardToList", rData, "GET", "application/json", function (res) {
           console.log(res);
           app.globalData.salesId = options.salesId;
@@ -149,7 +156,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+    this.goToScan();
   },
 
   /**
@@ -172,6 +179,7 @@ Page({
   },
   // 该方法绑定了页面滚动时的事件，我这里记录了当前的position.y的值,为了请求数据之后把页面定位到这里来。
   scroll: function(event) {
+    console.log("scroll");
     this.setData({
       scrollTop: event.detail.scrollTop
     });

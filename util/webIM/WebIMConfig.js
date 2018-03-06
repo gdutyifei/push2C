@@ -29,7 +29,7 @@ let config = {
     /*
      * Application AppKey
      */
-    appkey: 'gdut#u-in',
+    appkey: '1107180210115237#uin-hit',
     /*
      * Whether to use HTTPS      '1177161227178308#xcx'
      * @parameter {Boolean} true or false

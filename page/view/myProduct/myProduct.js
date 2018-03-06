@@ -20,6 +20,9 @@ Page({
     console.log("openid: " + salesOpenid);
     var host = config.host;
     var imgDomain = app.globalData.imgDomain;
+    if (imgDomain == null) {
+      imgDomain = "https://file.xspace.gd.cn/";
+    }
     var requestData = {};
     requestData.salesOpenid = salesOpenid;
     requestData.openid = app.globalData.openid;

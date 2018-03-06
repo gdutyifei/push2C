@@ -20,6 +20,11 @@ Page({
   onLoad: function (options) {
     var self = this;
     var imgDomain = app.globalData.imgDomain;
+    if(imgDomain == null) {
+      imgDomain = "https://file.xspace.gd.cn/";
+    }
+    console.log(imgDomain);
+    console.log(222);
     var productId = options.id;
     console.log(productId);
     var host = config.host;
@@ -85,9 +90,11 @@ Page({
    */
   onShareAppMessage: function (e) {
     var self = this;
+    console.log(self.data.productInfo.cover_url);
     console.log("转发");
     return {
       title: self.data.productInfo.product_name,
+      imageUrl: self.data.productInfo.cover_url,
       path: '/page/view/productDetail/productDetail?id=' + self.data.productInfo.id,
       success: function () {
         console.log("转发成功");

@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "名片列表"
+  "navigationBarTitleText": "名片列表",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#F8F8F8"
 }

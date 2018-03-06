@@ -2,5 +2,5 @@
   "usingComponents": {
     "toast": "/page/component/toast/toast"
   },
-    "navigationBarTitleText": "产品详情"
+    "navigationBarTitleText": "产品介绍"
 }

@@ -9,7 +9,7 @@
         <!-- <view class="user">
           <text>{{ item.username }}</text>
         </view> -->
-        <image class="avatar" src="{{item.from == myname? ((cUrl == '' || cUrl == null)? '/image/number.png': cUrl): ((bUrl == '' || bUrl == null)? '/image/number.png': bUrl) }}" />
+        <image class="avatar" src="{{item.from == myname? ((cUrl == '')? '/image/number.png': cUrl): ((bUrl == '' || bUrl == null)? '/image/number.png': bUrl) }}" />
         <view class="msg">
           <view>
             <template is="txt" data="{{ item }}" />

@@ -14,13 +14,13 @@
 }
 .user-content {
   background-color: #FFF;
-  width: 100%;
-  margin: 0 15rpx;
+  /* width: 100%; */
+  padding: 0 15rpx;
 }
 .user {
   display: inline-block;
   width: 330rpx;
-  margin: 0 15rpx;
+  padding: 0 15rpx;
 }
 .user-pic {
   display: inline-block;
@@ -69,7 +69,7 @@
 }
 
 .tel text {
-  padding: 6rpx 148rpx;
+  padding: 6rpx 18%;  
   border: 2px solid #E3E7EE;
   height: 100rpx;
   line-height: 100rpx;

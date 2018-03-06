@@ -26,7 +26,7 @@
   </button>
 </view>
 
-<view class='consult-content' wx-if="{{ isShowConsult }}">
+<view class='consult-content' hidden='{{isShowConsult? "": "false"}}'>
   <view class='consult-floor' bindtap='hideConsult'></view>
   <view class='consult-form'>
     

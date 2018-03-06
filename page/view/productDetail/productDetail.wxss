@@ -76,6 +76,8 @@
   width: 33.3%;
   background-color: #09BB07;
   color: #FFF;
+  height: 100rpx;
+  line-height: 100rpx;
 }
 
 .consult-content {
@@ -143,3 +145,4 @@ button {
   border-radius: 0;
 }
 button::after{ border: none; }
+

@@ -20,8 +20,11 @@ Page({
     var host = config.host;
     var salesId = app.globalData.salesId;
     var openid = app.globalData.openid;
-    var imgDomain = app.globalData.imgDomain;
     
+    var imgDomain = app.globalData.imgDomain;
+    if (imgDomain == null) {
+      imgDomain = "https://file.xspace.gd.cn/";
+    }
     var requestData = {};
     requestData.salesId = salesId;
     requestData.openid = openid;
@@ -39,10 +42,20 @@ Page({
           if(photos && photos.indexOf(",") != -1) {
             // 说明有,
             var imgList = photos.split(",");
+            var newImgList = [];
             for(var i in imgList) {
-              imgList[i] = imgDomain + "card/sales/" + imgList[i];
+              if(imgList[i] != "") {
+                imgList[i] = imgDomain + "card/sales/" + imgList[i];
+                newImgList.push(imgList[i]);
+              }
+              
             }
-            console.log(imgList);
+            console.log(newImgList);
+            data.imgList = newImgList;
+          } else {
+            var imgList = [];
+            var photo = imgDomain + "card/sales/" + photos;
+            imgList.push(photo);
             data.imgList = imgList;
           }
           self.setData({
@@ -105,8 +118,10 @@ Page({
     var info = self.data.info;
     var userInfo = JSON.parse(app.globalData.userInfo);
     var name = userInfo.nickName;
+    console.log(info);
     return {
       title: info.name,
+      imageUrl: info.cover_url,
       path: '/page/view/cardList/cardList?salesId=' + info.id + '&name=' + name,
       success: function() {
         console.log("转发成功");
@@ -184,7 +199,7 @@ Page({
     var tel = this.data.info.tel;
     console.log(tel);
     wx.addPhoneContact({
-      firstName: self.data.info.name,
+      lastName: self.data.info.name,
       mobilePhoneNumber: self.data.info.tel,
       weChatNumber: self.data.info.wechat,
       organization: self.data.info.store,
@@ -229,5 +244,16 @@ Page({
     wx.switchTab({
       url: '/page/view/myStore/myStore',
     })
+  },
+  formSubmit: function(e) {
+    var host = config.host;
+    var formId = e.detail.formId;
+    console.log(formId);
+    var requestData = {};
+    requestData.openid = app.globalData.openid;
+    requestData.formId = formId;
+    req.getRequest(host + "/api/formIdInfo/saveFormInfo", requestData, "GET", "application/json", function (res) {
+      console.log(res);
+    });
   }
 })

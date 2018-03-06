@@ -30,6 +30,9 @@ Page({
 
     var self = this;
     var imgDomain = app.globalData.imgDomain;
+    if (imgDomain == null) {
+      imgDomain = "https://file.xspace.gd.cn/";
+    }
     var salesId = app.globalData.salesId;
     var openid = app.globalData.openid;
     console.log(salesId);
@@ -124,7 +127,7 @@ Page({
   },
   goToChat: function (e) {
     wx.navigateTo({
-      url: '/page/view/chatRoom/chatRoom?salesOpenid=' + app.globalData.salesOpenid,
+      url: '/page/view/chatRoom/chatRoom?salesOpenid=' + app.globalData.salesOpenid + '&salesId=' + app.globalData.salesId,
     })
   },
   /**

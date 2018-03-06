@@ -5,7 +5,7 @@
   <scroll-view class='card-list' scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;" bindscrolltolower="bindDownLoad" bindscrolltoupper="topLoad"  bindscroll="scroll" >
     <view class='card-item' wx:for="{{cardList}}" wx:for-item="item" data-id="{{item.salesId}}" data-openid="{{item.openid}}" bindtap='enterTheCard'>
       <view class='item-from'>
-        <text>{{ item.date }}来自{{item.way == '转发'? item.relayName + '的': ''}}{{ item.way }}</text>
+        <text>{{ item.date }}</text>
       </view>
       <view class='item-detail'>
         <view class='item-store'>
@@ -20,9 +20,9 @@
         <view class='item-tel'>
           <text>Tel:{{ item.tel }}</text>
         </view>
-        <view class='item-email'>
+        <!-- <view class='item-email'>
           <text>Email:{{ item.email }}</text>
-        </view>
+        </view> -->
         <view class='item-image'>
           <!-- <image src='{{ item.imageUrl }}' mode='widthFix'></image> -->
           <image src='{{item.imageUrl}}' ></image>

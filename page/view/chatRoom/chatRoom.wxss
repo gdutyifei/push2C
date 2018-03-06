@@ -52,7 +52,7 @@ scroll-view {
   width: 32px;
   height: 30px;
   margin: 0 10px 0 0;
-  padding-top: 3px;
+  /* padding-top: 3px; */
   border-radius: 3px;
   float: left;
 }

@@ -37,11 +37,11 @@
       <text class='personal-msg-content'>{{ info.tel }}</text>
       <image src='/image/tel.png' mode='widthFix'></image>
     </view>
-    <view class='personal-msg-li' data-wechat='{{ info.wechat }}' bindtap='copy'>
+    <!-- <view class='personal-msg-li' data-wechat='{{ info.wechat }}' bindtap='copy'>
       <text class='personal-msg-tip'>微信</text>
       <text class='personal-msg-content' >{{ info.wechat }}</text>
       <image src='/image/wechat.png' mode='widthFix'></image>
-    </view>
+    </view> -->
     <view class='personal-msg-li' bindtap='goToStore'>
       <text class='personal-msg-tip'>门店</text>
       <text class='personal-msg-content'>{{ info.store }}</text>
@@ -53,9 +53,12 @@
       <image src='/image/Location.png' mode='widthFix'></image>
     </view>
   </view>
-  <button id='sync-btn' bindtap='addContact'>
+  <form bindsubmit="formSubmit" report-submit = "true">
+    <button id='sync-btn' bindtap='addContact' formType="submit">
     <text>同步到通讯录</text>
   </button>
+  </form>
+  
 </view>
 
 <view class='photo-show'>

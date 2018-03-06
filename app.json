@@ -2,22 +2,15 @@
   "pages": [
     "page/view/cardList/cardList",
     "page/view/chatRoom/chatRoom",
-    "page/view/test/test",
-    "page/view/index/index",
-    "page/view/identifyView/identifyView",
     "page/view/myCard/myCard",
     "page/view/myProduct/myProduct",
     "page/view/productDetail/productDetail",
     "page/view/myStore/myStore",
-    "page/view/photo/photo",
-    "page/view/camera/camera",
-    "page/view/webview/webview",
-    "page/component/toast/toast",
-    "page/view/chart/chart"
+    "page/component/toast/toast"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "U-in",
+    "navigationBarTitleText": "有营Hit",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
