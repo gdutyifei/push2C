@@ -1,2 +1,0 @@
-<!--page/view/webview/webview.wxml-->
-<web-view src="https://www.baidu.com">跳转网页</web-view>
