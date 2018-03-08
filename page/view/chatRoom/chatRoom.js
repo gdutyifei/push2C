@@ -80,26 +80,42 @@ Page({
       // console.log(cUrl)
       var newData = [];
       if (data.length != 0) {
-        for (var i in data) {
-          data[i].time = util.timetrans(data[i].time);
-        }
+        
         console.log(data);
         for(var i = data.length - 1; i >= 0; i--) {
           newData.push(data[i]);
         }
-        console.log(newData);
-        var chatMsg = self.data.chatMsg;
-        if (chatMsg != "" || chatMsg != null && chatMsg.length != 0) {
-          // for(var i in data) {
-          //   chatMsg.push(data[i]);
-          // }
-          for(var i in chatMsg) {
-            newData.push(chatMsg[i]);
+        for (var i in newData) {
+          if(i != 0) {
+            var difference = util.timeDifference(newData[i - 1].time, newData[i].time);
+            console.log(difference);
+            if(difference < 10) {
+              newData[i].time2 = "";
+            } else {
+              newData[i].time2 = newData[i].time;
+            }
+          } else {
+            newData[i].time2 = newData[i].time;
           }
-          
-        } else {
-          chatMsg = newData;
         }
+        for (var i in newData) { 
+          if (newData[i].time2 != "") {
+            newData[i].time2 = util.timetrans(newData[i].time);
+          }
+        }
+        console.log("新数据： " + JSON.stringify(newData));
+        // var chatMsg = self.data.chatMsg;
+        // if (chatMsg != "" || chatMsg != null && chatMsg.length != 0) {
+        //   // for(var i in data) {
+        //   //   chatMsg.push(data[i]);
+        //   // }
+        //   for(var i in chatMsg) {
+        //     newData.push(chatMsg[i]);
+        //   }
+          
+        // } else {
+        //   chatMsg = newData;
+        // }
         // console.log(chatMsg[chatMsg.length - 1].mid);
         self.setData({
           chatMsg: newData,
@@ -227,7 +243,8 @@ Page({
       // 说明发送成功，保存到表中。
       var value = WebIM.parseEmoji(msg.value.replace(/\n/mg, ''));
       console.log("值为： " + JSON.stringify(value));
-      var time = WebIM.time();
+      // var time = WebIM.time();
+      var time = new Date().getTime()
       var msgData = {
           from: fromName,
           to: msg.body.to,
@@ -237,9 +254,23 @@ Page({
         time: time,
         mid: "WEBIM_" + msg.id
       };
+      console.log("全局数据： " + JSON.stringify(self.data.chatMsg));
+      //console.log(self.data.chatMsg[self.data.chatMsg.length - 1].time);
+      if (self.data.chatMsg != "" && self.data.chatMsg != null && self.data.chatMsg.length != 0) {
+        var dif = util.timeDifference(self.data.chatMsg[self.data.chatMsg.length - 1].time, new Date().getTime());
+        console.log("相差： " + dif);
+        if(dif < 10) {
+          msgData.time2 = "";
+        } else {
+          msgData.time2 = util.timetrans(time);
+        }
+      } else {
+        msgData.time2 = util.timetrans(time);
+      }
       self.data.chatMsg.push(msgData);
       req.getRequest(host + "/api/chat/saveChatInfo", msgData, "GET", "application/json", function (res) {
         console.log(res);
+
         self.setData({
           chatMsg: self.data.chatMsg,
           inputMessage: '',
@@ -274,7 +305,8 @@ Page({
       } 
       //console.log(msg)
       console.log(value)
-      var time = WebIM.time()
+      // var time = WebIM.time()
+      var time = new Date().getTime()
       var msgData = {
           from: msg.from,
           to: msg.to,
@@ -284,11 +316,18 @@ Page({
         time: time,
         mid: "WEBIM_" + msg.id
       }
-      // if (msg.from == that.data.yourname) {
-      //   msgData.style = ''
-      // } else {
-      //   msgData.style = 'self'
-      // }
+
+      if (that.data.chatMsg != "" && that.data.chatMsg != null && that.data.chatMsg.length != 0) {
+        var dif = util.timeDifference(that.data.chatMsg[that.data.chatMsg.length - 1].time, new Date().getTime());
+        console.log("相差： " + dif);
+        if(dif < 10) {
+          msgData.time2 = "";
+        } else {
+          msgData.time2 = time;
+        }
+      } else {
+        msgData.time2 = time;
+      }
       that.data.chatMsg.push(msgData);
       req.getRequest(host + "/api/chat/saveChatInfo", msgData, "GET", "application/json", function (res) {
         console.log(res);
@@ -302,22 +341,8 @@ Page({
           })
         }, 100)
         
-        // setTimeout(function () {
-        //   that.setData({
-        //     toView: that.data.chatMsg[that.data.chatMsg.length - 1].mid
-        //   })
-        // }, 100)
+        
       });
-      // console.log(msgData);
-      // that.data.chatMsg.push(msgData)
-      // wx.setStorage({
-      //   key: that.data.yourname + that.data.myname,
-      //   data: that.data.chatMsg,
-      //   success: function () {
-      //     //console.log('success', that.data)
-          
-      //   }
-      // })
     }
   },
 
@@ -325,15 +350,6 @@ Page({
   bindDownLoad: function () {
     var self = this;
     console.log('下拉刷新');
-    // var page = parseInt(self.data.page) + 1;
-    // self.setData({
-    //   page: page
-    // })
-    // var end = this.data.end;
-    // if(end) {
-    //   return;
-    // }
-    // self.getData(page);
   },
   // 该方法绑定了页面滚动时的事件，我这里记录了当前的position.y的值,为了请求数据之后把页面定位到这里来。
   scroll: function (event) {

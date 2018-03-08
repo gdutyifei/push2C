@@ -2,8 +2,8 @@
 <view class="main">
   <scroll-view class='scroll_view' scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;" bindscrolltolower="bindDownLoad" bindscrolltoupper="topLoad"  bindscroll="scroll" scroll-y="true" class="scroll_view" class="{{ view }}" scroll-into-view="{{toView}}">
     <view class="message" wx:for="{{ chatMsg }}" wx:key="" id="{{ item.mid }}">
-      <view class="time">
-        <text>{{item.time}}</text>
+      <view class="time" wx-if="{{item.time2 != '' }}">
+        <text>{{item.time2}}</text>
       </view>
       <view class="main" class="{{ item.from == myname? 'self': '' }}">
         <!-- <view class="user">
